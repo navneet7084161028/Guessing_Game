@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Guessing Game</title>
+    <style>
+    *{
+        margin:0;
+        padding:0
+    }
+    body{
+        background-color:rgb(219, 113, 134);
+    }
+    form{
+        margin:auto;
+        width:60%
+    }
+    h1{
+      text-align: center;
+      font-weight: 700;
+    }
+    label{
+        font-size: 20px;
+        font-weight: 700;
+    }
+    .btn1{
+        display:none;
+    }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <h1>Guessing Game</h1>
+    <form>
+        <label id="label">Enter No: </label><br>
+        <div class="form-group">
+            <input type="text" class="form-control" id="num" placeholder="Enter a number between 1 to 6" ><br>
+            <input type="button" class="btn btn2 btn-success" onclick="show()" value="Start">
+            <input type="button" class="btn btn1 btn-danger" onclick="gameOver()" value="Start Again">
+            <p id="result"></p>
+        </div>
+    </form>
+</div>
+</body>
+</html>
+<script>
+function gameOver(){
+        $('#num').val("");
+        $('#label').show();
+        $('#num').show();
+        $('.btn2').show();
+        $('.btn1').hide();
+        $('#h').hide();        
+    }
+function show(){
+    
+    function disp(val){
+        document.getElementById('result').innerHTML = val;
+    }
+
+    var usernum = document.getElementById('num').value;
+    console.log(usernum);
+    var rnum = Math.floor(Math.random() * 6+1);
+    console.log(rnum);
+    
+    var point = 0;
+    var promise = new Promise (function (resolve,reject){
+
+        if(usernum==""){
+            alert('Plz Enter a number');
+        }
+        else if(usernum>6 || usernum<1){
+            reject( "<h2>Number Out of Range</h2>");
+        }
+        else if (isNaN(usernum)) {
+            reject( "<h2>Wrong Input Type</h2>");
+        }
+        else if(usernum == rnum){
+            point += 2;
+            console.log("Match");
+            resolve("<h2 id='h'>2 Point <br> Congrates You Won");
+            $('.btn1').show();
+            $('#label').hide();
+            $('#num').hide();
+            $('.btn2').hide();
+            $('#h').show();
+        }
+        else if(Math.abs(rnum-usernum)==1){
+            point +=1;
+            console.log("Closer To Your Gaol");
+            resolve("<h2> 1 Point <br> Closer To Your Gaol</h2>");
+        }
+        else{
+            console.log("Not Match");
+            resolve("<h2>0 Point <br> You loss</h2>");
+        }
+    });
+
+promise.then(
+    function(value){disp(value)},
+    function(error){disp(error)}
+    )
+}
+</script>
